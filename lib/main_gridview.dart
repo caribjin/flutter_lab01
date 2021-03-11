@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHome extends StatelessWidget {
-  static final bool showGrid = false;
+  static final bool showGrid = true;
 
   Widget _buildGrid() {
     return GridView.extent(
@@ -28,8 +28,11 @@ class MyHome extends StatelessWidget {
   }
 
   List<Container> _buildGridTileList(int count) {
-    return List.generate(count,
-        (index) => Container(child: Image.asset('lib/images/pic${index}.jpg')));
+    return List.generate(count, (index) {
+      return Container(
+        child: Image.asset('lib/images/pic${index}.jpg'),
+      );
+    });
   }
 
   Widget _buildList() {
@@ -39,7 +42,8 @@ class MyHome extends StatelessWidget {
         _tile('The Castro Theater', '429 Castro St', Icons.theaters),
         _tile('Alamo Drafthouse Cinema', '2550 Mission St', Icons.theaters),
         _tile('Roxie Theater', '3117 16th St', Icons.theaters),
-        _tile('United Artists Stonestown Twin', '501 Buckingham Way', Icons.theaters),
+        _tile('United Artists Stonestown Twin', '501 Buckingham Way',
+            Icons.theaters),
         _tile('AMC Metreon 16', '135 4th St #3000', Icons.theaters),
         Divider(),
         _tile('K\'s Kitchen', '757 Monterey Blvd', Icons.restaurant),
@@ -59,7 +63,10 @@ class MyHome extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      subtitle: Text(subtitle),
+      subtitle: Text(
+        subtitle,
+        textAlign: TextAlign.center,
+      ),
       leading: Icon(
         icon,
         color: Colors.blue[500],
