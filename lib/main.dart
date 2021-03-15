@@ -41,8 +41,9 @@ class _HttpAppState extends State<HttpApp> {
   }
 
   Future<String> getJSONData() async {
-    var url = Uri.https('dapi.kakao.com', '/v3/search/book', {'target': 'title', 'page': page.toString(), 'query': _editingController.value.text});
-    var response = await http.get(url, headers: {'Authorization': 'KakaoAK 54e00d0f44d0eb6dcb25c86aa57da732'});
+    // var url = Uri.https('dapi.kakao.com', '/v3/search/book', {'target': 'title', 'page': page.toString(), 'query': _editingController.value.text});
+    var url = 'https://dapi.kakao.com/v3/search/book?target=title&page=${page.toString()}&query=${_editingController.value.text}';
+    var response = await http.get(Uri.encodeFull(url), headers: {'Authorization': 'KakaoAK 54e00d0f44d0eb6dcb25c86aa57da732'});
 
     var jsonResponse = convert.jsonDecode(response.body);
     List documents = jsonResponse['documents'];
