@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import './sub/firstPage.dart';
-import './sub/secondPage.dart';
-import './sub/animalItem.dart';
+import 'package:flutter_lab01/sub/firstPage.dart';
+import 'package:flutter_lab01/sub/secondPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,29 +18,22 @@ class MyAppHome extends StatefulWidget {
 
 class _MyAppHomeState extends State<MyAppHome> with SingleTickerProviderStateMixin {
   TabController controller;
-  List<Animal> animalList = [];
 
   @override
   void initState() {
     super.initState();
 
     controller = TabController(
-        length: 2,
-        vsync: this
+      length: 2,
+      vsync: this
     );
 
-    initAnimals();
-  }
-
-  void initAnimals() {
-    animalList.add(Animal(animalName: '벌', kind: '곤충', imagePath: 'lib/images/pic0.jpg'));
-    animalList.add(Animal(animalName: '고양이', kind: '포유류', imagePath: 'lib/images/pic1.jpg'));
-    animalList.add(Animal(animalName: '젖소', kind: '포유류', imagePath: 'lib/images/pic2.jpg'));
-    animalList.add(Animal(animalName: '강아지', kind: '포유류', imagePath: 'lib/images/pic3.jpg'));
-    animalList.add(Animal(animalName: '여우', kind: '포유류', imagePath: 'lib/images/pic4.jpg'));
-    animalList.add(Animal(animalName: '원숭이', kind: '영장류', imagePath: 'lib/images/pic5.jpg'));
-    animalList.add(Animal(animalName: '돼지', kind: '포유류', imagePath: 'lib/images/pic6.jpg'));
-    animalList.add(Animal(animalName: '늑대', kind: '포유류', imagePath: 'lib/images/pic7.jpg'));
+    controller.addListener(() {
+      if (!controller.indexIsChanging) {
+        print(controller.previousIndex);
+        print(controller.index);
+      }
+    });
   }
 
   @override
@@ -59,8 +51,8 @@ class _MyAppHomeState extends State<MyAppHome> with SingleTickerProviderStateMix
       body: TabBarView(
         controller: controller,
         children: [
-          FirstApp(list: animalList),
-          SecondApp(list: animalList),
+          FirstApp(),
+          SecondApp(),
         ],
       ),
       bottomNavigationBar: TabBar(
