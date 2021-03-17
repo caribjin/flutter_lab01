@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lab01/sub/thirdDetail.dart';
 import './sub/subDetail.dart';
 import './sub/secondDetail.dart';
 
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SubDetail(),
-        '/second': (context) => SecondDetail()
+        '/second': (context) => SecondDetail(),
+        '/third': (context) => ThirdDetail()
       },
     );
   }

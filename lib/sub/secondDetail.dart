@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SecondDetail extends StatelessWidget {
+  TextEditingController controller = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,11 +13,19 @@ class SecondDetail extends StatelessWidget {
       ),
       body: Container(
         child: Center(
-          child: RaisedButton(
-            child: Text('첫 번째 페이지로 돌아가기'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+          child: Column(
+            children: [
+              TextField(
+                controller: controller,
+                keyboardType: TextInputType.text,
+              ),
+              RaisedButton(
+                child: Text('저장'),
+                onPressed: () {
+                  Navigator.of(context).pop(controller.value.text);
+                },
+              ),
+            ],
           ),
         ),
       ),
