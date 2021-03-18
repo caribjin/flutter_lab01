@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubDetail extends StatefulWidget {
   @override
@@ -6,23 +7,40 @@ class SubDetail extends StatefulWidget {
 }
 
 class _SubDetailState extends State<SubDetail> {
-  List<String> todoList = new List();
+  List<String> todoList = [];
 
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
 
-    todoList.add('당근 사오기');
-    todoList.add('약 사오기');
-    todoList.add('청소하기');
-    todoList.add('부모님께 전화하기');
+  void _setData(List<String> list) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setStringList('todos', todoList);
+  }
+
+  void _loadData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      List<String> list = pref.getStringList('todos');
+
+      if (list == null) {
+        todoList = ['Todo 1', 'Todo 2'];
+      } else {
+        todoList = list;
+      }
+    });
   }
 
   void _addNavigation(BuildContext context) async {
     final result = await Navigator.of(context).pushNamed('/second');
+
     setState(() {
       todoList.add(result);
     });
+
+    _setData(todoList);
   }
 
   @override
