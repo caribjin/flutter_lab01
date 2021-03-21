@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import '../main_file.dart';
 import 'fileApp.dart';
 
 class IntroPage extends StatefulWidget {
