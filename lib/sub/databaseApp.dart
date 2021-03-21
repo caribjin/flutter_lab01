@@ -63,11 +63,33 @@ class _DatabaseAppState extends State<DatabaseApp> {
     });
   }
 
+  void _allUpdate() async {
+    final database = await widget.db;
+    await database.rawUpdate('UPDATE todos SET active=1 WHERE active=0');
+    setState(() {
+      todoList = getTodos();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Database Example'),
+        actions: [
+          FlatButton(
+            child: Text(
+              '완료한 일',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () async {
+              await Navigator.of(context).pushNamed('/clear');
+              setState(() {
+                todoList = getTodos();
+              });
+            },
+          ),
+        ],
       ),
       body: Container(
         child: Center(
@@ -184,14 +206,29 @@ class _DatabaseAppState extends State<DatabaseApp> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () async {
-            final todo = await Navigator.of(context).pushNamed('/add');
-            _insertTodo(todo);
-          }
+      floatingActionButton: Column(
+        children: [
+          FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () async {
+              final todo = await Navigator.of(context).pushNamed('/add');
+              if (todo != null) {
+                _insertTodo(todo);
+              }
+            },
+            heroTag: null,
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            child: Icon(Icons.update),
+            onPressed: () async {
+              _allUpdate();
+            },
+            heroTag: null,
+          ),
+        ],
+        mainAxisAlignment: MainAxisAlignment.end,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
