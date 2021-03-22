@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './sub/people.dart';
+import 'sub/secondPage_graph.dart';
 
 void main() => runApp(MyApp());
 
@@ -111,7 +112,7 @@ class _AnimationAppState extends State<AnimationApp> {
                   height: 200,
                 ),
               ),
-              Row(
+              Column(
                 children: [
                   RaisedButton(
                     child: Text('이전'),
@@ -142,6 +143,20 @@ class _AnimationAppState extends State<AnimationApp> {
                         _opacity == 1 ? _opacity = 0 : _opacity = 1;
                       });
                     },
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondPageGraph()));
+                    },
+                    child: SizedBox(
+                      width: 200,
+                      child: Row(
+                        children: [
+                          Hero(tag: 'detail', child: Icon(Icons.cake),),
+                          Text('이동하기'),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
