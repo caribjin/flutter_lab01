@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './sub/people.dart';
 import 'sub/secondPage_graph.dart';
+import 'sub/sliverPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -157,6 +158,12 @@ class _AnimationAppState extends State<AnimationApp> {
                         ],
                       ),
                     ),
+                  ),
+                  RaisedButton(
+                    child: Text('페이지 이동'),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliverPage()));
+                    },
                   ),
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

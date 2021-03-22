@@ -53,6 +53,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - repo/fruit.txt
+    - repo/images/sunny.png
     - lib/images/pic0.jpg
     - lib/images/pic1.jpg
     - lib/images/pic2.jpg
