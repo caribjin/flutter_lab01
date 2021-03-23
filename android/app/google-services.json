@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "611209750456",
+    "project_id": "devcrow-flutter-example",
+    "storage_bucket": "devcrow-flutter-example.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611209750456:android:ccfc9184a22e62b00e114d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_lab01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611209750456-tn3p2ufg68dvhrlqgef3g5b4h4qke2eu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATkkyhMG-kRxWKUonD3EqEKOZ-AdHeaEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611209750456-tn3p2ufg68dvhrlqgef3g5b4h4qke2eu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

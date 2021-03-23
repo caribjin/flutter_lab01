@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 import 'package:flutter/services.dart';
 import 'sub/sendDataExample.dart';
@@ -8,6 +10,9 @@ import 'sub/sendDataExample.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
@@ -20,7 +25,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: NativeApp(),
+        navigatorObservers: <NavigatorObserver>[observer],
+        home: NativeApp(analytics: analytics, observer: observer),
       );
     }
   }
@@ -39,15 +45,44 @@ class _CupertinoNativeAppState extends State<CupertinoNativeApp> {
 }
 
 class NativeApp extends StatefulWidget {
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  NativeApp({Key key, this.analytics, this.observer}) : super(key: key);
+
   @override
-  _NativeAppState createState() => _NativeAppState();
+  _NativeAppState createState() => _NativeAppState(analytics, observer);
 }
 
 class _NativeAppState extends State<NativeApp> {
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
+  _NativeAppState(this.analytics, this.observer);
+
   static const platform = const MethodChannel('com.flutter.dev/info');
   static const platform3 = const MethodChannel('com.flutter.dev/dialog');
 
   String _deviceInfo = 'Unknown info';
+  String _message = '';
+
+  void setMessage(String message) {
+    setState(() {
+      _message = message;
+    });
+  }
+
+  Future<void> _sendAnalyticsEvent(String type) async {
+    await analytics.logEvent(
+      name: 'flutter_event',
+      parameters: <String, dynamic> {
+        'string': type,
+        'int': 100,
+      }
+    );
+
+    setMessage('Analytics event 보내기 성공');
+  }
 
   Future<void> _getDeviceInfo() async {
     String deviceInfo;
@@ -55,7 +90,7 @@ class _NativeAppState extends State<NativeApp> {
     try {
       final String result = await platform.invokeMethod('getDeviceInfo');
       deviceInfo = 'Device Info: $result';
-    } on PlatformException catch(e) {
+    } on PlatformException catch (e) {
       deviceInfo = 'Failed to get Device info: `${e.message}`.';
     }
 
@@ -67,7 +102,7 @@ class _NativeAppState extends State<NativeApp> {
   Future<void> _showDialog() async {
     try {
       await platform3.invokeMethod('showDialog');
-    } on PlatformException catch(e) {
+    } on PlatformException catch (e) {
       print('ERROR: ${e.message}');
     }
   }
@@ -91,6 +126,7 @@ class _NativeAppState extends State<NativeApp> {
           FloatingActionButton(
             onPressed: () {
               _getDeviceInfo();
+              _sendAnalyticsEvent('deviceInfo');
             },
             child: Text('정보'),
             heroTag: 'deviceInfo',
@@ -101,6 +137,7 @@ class _NativeAppState extends State<NativeApp> {
           FloatingActionButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => SendDataExample()));
+              _sendAnalyticsEvent('encrypto');
             },
             child: Text('변환'),
             heroTag: 'encrypto',
@@ -111,6 +148,7 @@ class _NativeAppState extends State<NativeApp> {
           FloatingActionButton(
             onPressed: () {
               _showDialog();
+              _sendAnalyticsEvent('dialog');
             },
             child: Text('알림'),
             heroTag: 'dialog',

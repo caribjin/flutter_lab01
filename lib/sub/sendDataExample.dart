@@ -21,9 +21,7 @@ class _SendDataExampleState extends State<SendDataExample> {
   }
 
   Future<void> _decodeData(String text) async {
-    print('before: $text');
     final String result = await platform.invokeMethod('getDecrypto', text);
-    print('after: $result');
     setState(() {
       _reChangeText = result;
     });
